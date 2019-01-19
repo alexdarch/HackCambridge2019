@@ -6,11 +6,15 @@ Created on Sat Jan 19 16:26:22 2019
 """
 import requests
 from IPython.display import HTML
+from PIL import Image
+from io import BytesIO
 
 subscription_key = '6d1691bf159940679209d2d734d2e2e0'
 assert subscription_key
 
 faceListId = '19012019facelist'
+
+image_url= "https://how-old.net/Images/faces2/main001.jpg"
 
 def findFaceInImage(image_url):
     '''Find faces in an image'''
@@ -50,7 +54,19 @@ def allocateToFaceList(image_url, face, facelistname):
     faceListName = facelistname
     newFaceToFaceList_api_url = 'https://northeurope.api.cognitive.microsoft.com/face/v1.0/facelists/'+faceListName+'/persistedFaces'
     
-    left = face['left']; top = face['top']; width = face['width']; height = face['height']
+    image_file = BytesIO(requests.get(image_url).content)
+    image = Image.open(image_file)
+    width, height = image.size
+    
+    faceRectangle = face['faceRectangle']
+    left = int((faceRectangle['left']/width)*100)
+    top = int((faceRectangle['top']/height)*100)
+    width = int((faceRectangle['width']/width)*100)
+    height = int((faceRectangle['height']/height)*100)
+#    left = int(faceRectangle['left'] *100)
+#    top = int(faceRectangle['top'] *100)
+#    width = int(faceRectangle['width'] *100)
+#    height = int(faceRectangle['height'] *100)
     
     targetFace = 'targetFace='+str(left)+','+str(top)+','+str(width)+','+str(height)
     print(targetFace)
@@ -75,7 +91,9 @@ def findSimilarFaces(face, facelistname):
     headers = { 'Ocp-Apim-Subscription-Key': subscription_key }
     
     response = requests.post(faceSimilarity_api_url, headers=headers, json={'faceId': faceId, 'faceListId': faceListName, 'mode': 'matchFace'})
-    similarfaces = response.json() # Returns persistedFaceId and confidence for each response
+    similarFaces = response.json() # Returns persistedFaceId and confidence for each response
+    
+    return similarFaces
     
 def getFaceList(facelistname):
     '''See what's in the FaceList'''
@@ -92,3 +110,12 @@ def getFaceList(facelistname):
     
     print(response.json())
     
+    return response.json()
+    
+faces = findFaceInImage(image_url)
+createNewFaceList(faceListId)
+
+for face in faces:
+    allocateToFaceList(image_url, face, faceListId)
+    
+getFaceList(faceListId)
