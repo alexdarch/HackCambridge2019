@@ -1,11 +1,9 @@
 import numpy as np
 import os
 
-class program:
+class SmoothOrangeJuice():
     def __init__(self): 
         self.Running = True
-        # total dataset
-        dataset_size = 500 
         self.dataset = self.get_dataset()
         # initial image dataset
         self.initial_size = 30
@@ -14,15 +12,15 @@ class program:
         self.similarity_average = [0]*len(self.dataset)
         # counter for number of images that have been considered
         self.count = 0
+
     def get_dataset(self):
         '''
-        get array of image names from dataset
+        get list of image names from dataset
         '''
         b = []
         for _ in range(500):
             b.append('b')
         return b
-        
 
     def get_image(self, face_id=None, num_images = 1):
         '''
@@ -120,7 +118,6 @@ class program:
         
         print("Ran out of images to give")
             
-
 if __name__ == "__main__":
-    prog = program()
+    prog = SmoothOrangeJuice()
     prog.run()
