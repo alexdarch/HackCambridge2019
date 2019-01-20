@@ -2,8 +2,8 @@ data/
 dc_img/
 *.vscode
 *.ipynb_checkpoints
-*/.idea
-*/__pychache__
+*.idea
+*__pychache__
 Matchbridge/.git
 Matchbridge/.gitignore
 Matchbridge/LICENSE
