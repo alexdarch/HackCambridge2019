@@ -47,10 +47,23 @@ image6 = {'image_src': ""}
 def hello():
 	return render_template('home.html', image_data=image_data, image1=image1, image2=image2, image3=image3, image4=image4, image5=image5, image6=image6)
 
-@app.route('/switchimage', methods=['GET', 'POST'])
-def switchimage():
+@app.route('/switchnegativeimage', methods=['GET', 'POST'])
+def switchnegative():
     if request.method == 'POST' or request.method=='GET':
         # Allocate image accordingly
+        # Alter image_data to next image we want to load in
+        # Alter image 1-6 as top 6 ranked images
+        # use top_images = dataframe.nlargest(6, 'Confidence')
+        image_data = {'image_src': "../static/images/image347.jpg"}
+        return render_template('home.html', image_data=image_data,image1=image1, image2=image2, image3=image3, image4=image4, image5=image5, image6=image6)
+    
+@app.route('/switchpositiveimage', methods=['GET','POST'])
+def switchpositiveimage():
+    if request.method == 'POST' or request.method=='GET':
+        # Allocate image accordingly
+        # Alter image_data to next image we want to load in
+        # Alter image 1-6 as top 6 ranked images
+        # use top_images = dataframe.nlargest(6, 'Confidence')
         image_data = {'image_src': "../static/images/image347.jpg"}
         return render_template('home.html', image_data=image_data,image1=image1, image2=image2, image3=image3, image4=image4, image5=image5, image6=image6)
 
