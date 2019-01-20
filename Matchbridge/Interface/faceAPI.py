@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jan 19 16:26:22 2019
+
+@author: benwi
+"""
 import requests
 # from IPython.display import HTML
 # from PIL import Image
@@ -19,7 +25,7 @@ class FaceAPI:
                                 params={'faceListId': self.face_list_id},
                                 headers={'Ocp-Apim-Subscription-Key': FaceAPI.subscription_key},
                                 json={"name": self.face_list_id})
-        print(response.json())
+        #print(response.json())
 
     def find_face_in_image(self, path):
         """Find faces in an image"""
@@ -55,8 +61,10 @@ class FaceAPI:
 
     def find_similar_faces(self, face_features_dict)->list:
         """Face similarity"""
-
-        face_id = face_features_dict['faceId']
+        if type(face_features_dict)==dict:
+            face_id = face_features_dict['faceId']
+        if type(face_features_dict)==list:
+            face_id = face_features_dict[0]['faceId']
         face_similarity_api_url = self.api_url + '/findsimilars'
         headers = {'Ocp-Apim-Subscription-Key': FaceAPI.subscription_key}
         response = requests.post(face_similarity_api_url,
@@ -83,20 +91,28 @@ class FaceAPI:
 
         print("response.json()2: ", response.json())
         return response.json()
+    
+    def delete_facelist(self):
+        """Create new FaceList"""
+        face_list_create_api_url = self.api_url + '/facelists/' + self.face_list_id
+        
+        response = requests.delete(face_list_create_api_url,
+                                params={'faceListId': self.face_list_id},
+                                headers={'Ocp-Apim-Subscription-Key': FaceAPI.subscription_key},
+                                json={"name": self.face_list_id})
+        #print(response.json())
 
-
-# test_image_path = 'Interface/test_img.jpg'
-# #pass in some test ids and urls
-# face_api = FaceAPI(face_list_id='19012019facelist')
-# face_api.create_new_face_list()
-# image_faces = face_api.find_face_in_image(path=test_image_path)
-
-# for face_dict in image_faces:
-#     face_api.allocate_to_face_list(test_image_path)
-#     face_api.find_similar_faces(face_dict)
-
-# face_api.get_face_list()
-
-
-
-# faces = face_api.find_face_in_image(test_image_path)
+##pass in some test ids and urls
+#face_api = FaceAPI(face_list_id='19012019facelist')
+#face_api.create_new_face_list()
+#image_faces = face_api.find_face_in_image(path='test_img.jpg')
+#
+#for face_dict in image_faces:
+#    face_api.allocate_to_face_list('test_img.jpg')
+#    face_api.find_similar_faces(face_dict)
+#
+#face_api.get_face_list()
+#
+#image_data = 'test_img.jpg'
+#
+#faces = face_api.find_face_in_image(image_data)
