@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jan 19 16:26:22 2019
-
-@author: benwi
-"""
 import requests
 # from IPython.display import HTML
 # from PIL import Image
@@ -91,17 +85,18 @@ class FaceAPI:
         return response.json()
 
 
-#pass in some test ids and urls
-face_api = FaceAPI(face_list_id='19012019facelist')
-face_api.create_new_face_list()
-image_faces = face_api.find_face_in_image(path='test_img.jpg')
+# test_image_path = 'Interface/test_img.jpg'
+# #pass in some test ids and urls
+# face_api = FaceAPI(face_list_id='19012019facelist')
+# face_api.create_new_face_list()
+# image_faces = face_api.find_face_in_image(path=test_image_path)
 
-for face_dict in image_faces:
-    face_api.allocate_to_face_list('test_img.jpg')
-    face_api.find_similar_faces(face_dict)
+# for face_dict in image_faces:
+#     face_api.allocate_to_face_list(test_image_path)
+#     face_api.find_similar_faces(face_dict)
 
-face_api.get_face_list()
+# face_api.get_face_list()
 
-image_data = 'test_img.jpg'
 
-faces = face_api.find_face_in_image(image_data)
+
+# faces = face_api.find_face_in_image(test_image_path)

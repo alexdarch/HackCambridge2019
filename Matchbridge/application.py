@@ -2,7 +2,7 @@ import sys
 import numpy as np
 sys.path.insert(0,'./Interface')
 
-import faceAPI
+from Interface import faceAPI
 from smooth_orange_juice import SmoothOrangeJuice
 from flask import Flask, render_template, request, flash
 from flask_wtf import FlaskForm
