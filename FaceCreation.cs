@@ -24,6 +24,7 @@ static async Task WaitCallLimitPerSecondAsync()
     }
 }
 
+
 FaceServiceClient faceServiceClient = new FaceServiceClient("df70a46f-d64a-4677-af57-587b6832bd49");
 
 const string personGroupId = "mypersongroupid";
